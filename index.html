@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адам ағзасындағы микро және макро элементтер</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --accent-color: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            height: 100vh;
+            background: linear-gradient(135deg, #1a5276, #2874a6);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+        
+        header.visible .header-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        header p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .bg-animated-circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: floatCircle 8s infinite ease-in-out;
+        }
+        
+        @keyframes floatCircle {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+        }
+        
+        section {
+            padding: 100px 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .intro {
+            text-align: center;
+            background-color: white;
+        }
+        
+        .intro h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .intro h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+        }
+        
+        .elements {
+            background-color: var(--light-color);
+        }
+        
+        .elements h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+        
+        .element-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+        
+        .element-card {
+            flex: 1 1 300px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .element-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .element-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .element-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        .element-card p {
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .element-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .element-card:hover .element-icon {
+            transform: rotate(360deg);
+        }
+        
+        .macro {
+            background-color: var(--secondary-color);
+        }
+        
+        .human-body {
+            background-color: white;
+            text-align: center;
+        }
+        
+        .human-body h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .body-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 920px;
+            height: auto;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            aspect-ratio: 920/864;
+        }
+        
+        .body-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .body-image-container:hover .body-image {
+            transform: scale(1.05);
+        }
+        
+        .overlay-dots {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .element-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 2;
+        }
+        
+        .element-dot:hover {
+            transform: scale(1.5);
+        }
+        
+        .element-dot.active {
+            background-color: var(--secondary-color);
+            transform: scale(1.5);
+        }
+        
+        .element-tooltip {
+            position: absolute;
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 250px;
+            z-index: 3;
+            font-size: 1.1rem;
+            text-align: left;
+            pointer-events: none;
+        }
+        
+        .element-tooltip:after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
+        }
+        
+        /* Стили для раздела видео */
+        /* Стили для раздела видео и управления */
+.video-section {
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 100px 0;
+}
+
+.video-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.video-container {
+    position: relative;
+    width: 80%;
+    max-width: 1000px;
+    margin: 0 auto 50px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease;
+}
+
+.video-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.video-frame {
+    position: relative;
+    width: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#mainVideo {
+    width: 100%;
+    display: block;
+}
+
+.video-play-button {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 50; /* Увеличиваем z-index, чтобы быть поверх других элементов */
+    pointer-events: auto; /* Явно указываем, что элемент должен реагировать на события мыши */
+}
+
+
+.video-play-button:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-play-button:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 15px 0 15px 25px;
+    border-color: transparent transparent transparent white;
+    margin-left: 5px;
+}
+
+/* Новые стили для элементов управления видео */
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 40;
+}
+
+.video-frame:hover .video-controls {
+    opacity: 1;
+}
+
+.debug-outline {
+    outline: 2px solid red !important;
+}
+
+.progress-container {
+    width: 100%;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--primary-color, #3498db);
+    width: 0;
+    transition: width 0.1s linear;
+}
+
+.controls-buttons {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.control-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-right: 10px;
+}
+
+.control-button:hover {
+    opacity: 0.8;
+}
+
+.time-display {
+    flex-grow: 1;
+    text-align: left;
+    font-size: 0.9rem;
+    color: white;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+}
+
+.volume-slider-container {
+    width: 70px;
+    margin-left: 5px;
+}
+
+#volumeSlider {
+    width: 100%;
+    height: 5px;
+}
+
+@media (max-width: 768px) {
+    .video-controls {
+        padding: 5px 0;
+    }
+    
+    .control-button {
+        font-size: 1rem;
+        padding: 3px 5px;
+    }
+    
+    .time-display {
+        font-size: 0.8rem;
+    }
+    
+    .volume-slider-container {
+        width: 50px;
+    }
+}
+    </style>
+</head>
+<body>
+    <header id="home" class="visible">
+        <div class="bg-animated-circles">
+            <div class="circle" style="top: 10%; left: 10%; width: 100px; height: 100px; animation-delay: 0s;"></div>
+            <div class="circle" style="top: 20%; left: 60%; width: 150px; height: 150px; animation-delay: 1s;"></div>
+            <div class="circle" style="top: 70%; left: 20%; width: 120px; height: 120px; animation-delay: 2s;"></div>
+            <div class="circle" style="top: 50%; left: 80%; width: 180px; height: 180px; animation-delay: 3s;"></div>
+            <div class="circle" style="top: 80%; left: 70%; width: 100px; height: 100px; animation-delay: 4s;"></div>
+        </div>
+        <div class="header-content">
+            <h1>Адам ағзасындағы микро және макро элементтер</h1>
+            <p>Денсаулықты қолдау үшін маңызды минералдар мен элементтер туралы білім</p>
+        </div>
+    </header>
+
+    <section class="intro" id="intro">
+        <div class="container">
+            <h2>Кіріспе</h2>
+            <div class="intro-text">
+                <p>Адам ағзасында химиялық элементтер маңызды роль атқарады. Олар екі негізгі топқа бөлінеді: макроэлементтер және микроэлементтер.</p>
+                <p>Макроэлементтер - адам ағзасында көп мөлшерде (0,01% және одан жоғары) болатын элементтер: кальций, фосфор, калий, натрий, магний, хлор және күкірт. Олар сүйек тінінің, жүйке жұмысының және көптеген метаболикалық процестердің құрамдас бөлігі болып табылады.</p>
+                <p>Микроэлементтер - адам ағзасында аз мөлшерде (0,01%-дан кем) болатын элементтер: темір, мыс, йод, фтор, цинк, марганец, кобальт және басқалары. Аз мөлшерде қажет болса да, олар метаболизм, қан түзілу, иммундық жүйе және басқа да маңызды биологиялық функциялар үшін өте маңызды.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="elements" id="macro">
+        <div class="container">
+            <h2>Макроэлементтер</h2>
+            <div class="element-container">
+                <div class="element-card">
+                    <div class="element-icon">Ca</div>
+                    <h3>Кальций</h3>
+                    <p>Сүйек пен тіс құрылымының негізгі элементі. Жүйке импульстарының берілуіне, қан ұюына және бұлшықет жиырылуына қатысады.</p>
+                </div>
+                <div class="element-card">
+                    <div class="element-icon">P</div>
+                    <h3>Фосфор</h3>
+                    <p>ДНҚ, РНҚ және АТФ құрамына кіреді. Сүйектер мен тістердің құрылымдық компоненті. Энергия метаболизмінде маңызды роль атқарады.</p>
+                </div>
+                <div class="element-card">
+                    <div class="element-icon">K</div>
+                    <h3>Калий</h3>
+                    <p>Жасуша ішіндегі негізгі катион. Жүйке импульстарын беруде, бұлшықет жиырылуында және жүрек соғуын реттеуде маңызды.</p>
+                </div>
+                <div class="element-card">
+                    <div class="element-icon">Na</div>
+                    <h3>Натрий</h3>
+                    <p>Жасуша сыртындағы негізгі катион. Су теңгерімін сақтауға, жүйке импульстарын өткізуге және қан қысымын реттеуге қатысады.</p>
+                </div>
+                <div class="element-card">
+                    <div class="element-icon">Mg</div>
+                    <h3>Магний</h3>
+                    <p>300-ден астам ферменттік реакцияларға қатысады. Бұлшықет функциясы, жүйке жұмысы және сүйек құрылымы үшін маңызды.</p>
+                </div>
+                <div class="element-card">
+                    <div class="element-icon">Cl</div>
+                    <h3>Хлор</h3>
+                    <p>Асқазан сөлінің құрамына кіреді және ас қорыту процесіне қатысады. Қышқыл-сілтілік тепе-теңдікті реттейді.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="elements" id="micro">
+        <div class="container">
+            <h2>Микроэлементтер</h2>
+            <div class="element-container">
+                <div class="element-card">
+                    <div class="element-icon macro">Fe</div>
+                    <h3>Темір</h3>
+                    <p>Гемоглобиннің негізгі құрамдас бөлігі, оттегінің тасымалдануын қамтамасыз етеді. Анемияның алдын алу үшін қажет.</p>
+                </div>
+                <div class="element-card">
+                    <div class="element-icon macro">Zn</div>
+                    <h3>Мырыш</h3>
+                    <p>Иммундық жүйенің күшті құрамдас бөлігі. ДНҚ синтезіне және ақуыз синтезіне қатысады. Жара жазылуын жылдамдатады.</p>
+                </div>
+                <div class="element-card">
+                    <div class="element-icon macro">I</div>
+                    <h3>Йод</h3>
+                    <p>Қалқанша бездің гормондарын өндіру үшін қажет. Метаболизмді, өсуді және дамуды реттейді.</p>
+                </div>
+                <div class="element-card">
+                    <div class="element-icon macro">Cu</div>
+                    <h3>Мыс</h3>
+                    <p>Ферменттік реакцияларға қатысады. Темір метаболизмі, қан тамырларының түзілуі және иммундық функция үшін маңызды.</p>
+                </div>
+                <div class="element-card">
+                    <div class="element-icon macro">Se</div>
+                    <h3>Селен</h3>
+                    <p>Күшті антиоксидант. Қалқанша без функциясына және иммунитетке әсер етеді.</p>
+                </div>
+                <div class="element-card">
+                    <div class="element-icon macro">F</div>
+                    <h3>Фтор</h3>
+                    <p>Тіс эмалі мен сүйек тініндегі құрамдас элементі. Тіс тозуының алдын алады.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Раздел для видео -->
+<!-- Раздел для видео -->
+    <section class="video-section" id="videos">
+        <div class="container">
+            <h2>Бейне материалдар</h2>
+            <div class="video-container">
+                <div class="video-frame">
+                    <video id="mainVideo" width="100%">
+                        <source src="vid.mp4" type="video/mp4">
+                    </video>
+                    <div id="playButton" class="video-play-button"></div>
+                    <div class="video-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="controls-buttons">
+                            <button id="playPauseButton" class="control-button">▶</button>
+                            <div class="time-display">
+                                <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+                            </div>
+                            <div class="volume-control">
+                                <button id="muteButton" class="control-button">🔊</button>
+                                <div class="volume-slider-container">
+                                    <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="human-body" id="body">
+        <div class="container">
+            <h2>Адам ағзасындағы элементтер</h2>
+            <div class="body-image-container">
+                <img src="organise.jpg" alt="Адам ағзасы" class="body-image">
+                <div class="overlay-dots">
+                    <div class="element-dot" style="top: 10%; left: 50%;" data-info="Ми: фосфор, натрий, калий - нейрондардың жұмысы мен жүйке импульстарын беру үшін."></div>                    
+                    <div class="element-dot" style="top: 30%; left: 48%;" data-info="Қалқанша без: йод - қалқанша гормондарын өндіру үшін."></div>                    
+                    <div class="element-dot" style="top: 40%; left: 50%;" data-info="Жүрек: калий, натрий, магний - жүрек бұлшықеттерінің дұрыс жұмыс істеуі үшін."></div>                    
+                    <div class="element-dot" style="top: 45%; left: 40%;" data-info="Өкпе: темір - оттегінің тасымалдануын қамтамасыз ету үшін."></div>                   
+                    <div class="element-dot" style="top: 55%; left: 60%;" data-info="Бауыр: мыс, цинк - метаболикалық процестер үшін."></div>                    
+                    <div class="element-dot" style="top: 60%; left: 55%;" data-info="Асқазан: хлор - асқазан сөлінің құрамындағы тұз қышқылын өндіру үшін."></div>                    
+                    <div class="element-dot" style="top: 70%; left: 50%;" data-info="Бүйрек: натрий, калий - су және электролит балансын реттеу үшін."></div>
+                    <div class="element-dot" style="top: 50%; left: 29%;" data-info="Сүйектер: кальций, фосфор, магний - сүйек құрылымы үшін."></div>
+                </div>
+                <div id="element-info-popup" class="element-tooltip" style="display: none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Адам ағзасындағы микро және макро элементтер туралы ақпараттық портал</p>
+        </div>
+    </footer>
+
+    <div class="scroll-top" id="scrollTop">↑</div>
+
+    <script>
+        // Load elements immediately on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make header visible immediately
+            document.querySelector('header').classList.add('visible');
+            
+            // Elements that we'll check for visibility
+            const sections = document.querySelectorAll('section');
+            const elementCards = document.querySelectorAll('.element-card');
+            const scrollTopButton = document.getElementById('scrollTop');
+            const videoContainer = document.querySelector('.video-container');
+            const elementDots = document.querySelectorAll('.element-dot');
+            const infoPopup = document.getElementById('element-info-popup');
+            
+            // Function to check if element is in viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.9 &&
+                    rect.bottom >= 0
+                );
+            }
+            
+            // Function to show elements when they're in viewport
+            function showElementsInViewport() {
+                // Check sections
+                sections.forEach(section => {
+                    if (isInViewport(section)) {
+                        section.classList.add('visible');
+                    }
+                });
+                
+                // Check element cards
+                elementCards.forEach((card, index) => {
+                    if (isInViewport(card)) {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 100);
+                    }
+                });
+                
+                // Check video container
+                if (videoContainer && isInViewport(videoContainer)) {
+                    videoContainer.classList.add('visible');
+                }
+                
+                // Show/hide scroll top button
+                if (window.pageYOffset > 300) {
+                    scrollTopButton.classList.add('visible');
+                } else {
+                    scrollTopButton.classList.remove('visible');
+                }
+            }
+            
+            // Run initial check
+            showElementsInViewport();
+            
+            // Check on scroll with throttling
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                if (!scrollTimeout) {
+                    scrollTimeout = setTimeout(function() {
+                        scrollTimeout = null;
+                        showElementsInViewport();
+                    }, 100);
+                }
+            });
+            
+            // Scroll to top when button clicked
+            scrollTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Handle element dots click with improved event handling
+            elementDots.forEach(dot => {
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // Remove active class from all dots
+                    elementDots.forEach(d => d.classList.remove('active'));
+                    
+                    // Add active class to clicked dot
+                    this.classList.add('active');
+                    
+                    // Get information from data attribute
+                    const info = this.getAttribute('data-info');
+                    
+                    // Show the popup with information
+                    infoPopup.style.display = 'block';
+                    infoPopup.textContent = info;
+                    
+                    // Position popup relative to the dot
+                    const dotRect = this.getBoundingClientRect();
+                    const containerRect = document.querySelector('.body-image-container').getBoundingClientRect();
+                    
+                    // Calculate popup position
+                    const popupLeft = dotRect.left - containerRect.left - (infoPopup.offsetWidth / 2) + (this.offsetWidth / 2);
+                    const popupTop = dotRect.top - containerRect.top - infoPopup.offsetHeight - 20;
+                    
+                    // Set popup position with boundary checks
+                    infoPopup.style.left = Math.max(10, Math.min(popupLeft, containerRect.width - infoPopup.offsetWidth - 10)) + 'px';
+                    infoPopup.style.top = Math.max(10, popupTop) + 'px';
+                });
+            });
+            
+            // Close popup when clicking elsewhere
+            document.addEventListener('click', function() {
+                if (infoPopup) {
+                    infoPopup.style.display = 'none';
+                    elementDots.forEach(d => d.classList.remove('active'));
+                }
+            });
+            
+            // Video playback controls
+            const mainVideo = document.getElementById('mainVideo');
+            const playButton = document.getElementById('playButton');
+            
+            if (mainVideo && playButton) {
+                playButton.addEventListener('click', function() {
+                    if (mainVideo.paused) {
+                        mainVideo.play()
+                            .then(() => {
+                                playButton.style.display = 'none';
+                            })
+                            .catch(error => {
+                                console.log("Video play failed:", error);
+                                // Если видео нет, показываем сообщение
+                                alert('Видео файл не найден или не поддерживается браузером');
+                            });
+                    } else {
+                        mainVideo.pause();
+                        playButton.style.display = 'flex';
+                    }
+                });
+                
+                mainVideo.addEventListener('pause', function() {
+                    playButton.style.display = 'flex';
+                });
+                
+                mainVideo.addEventListener('play', function() {
+                    playButton.style.display = 'none';
+                });
+                
+                // Handle video errors
+                mainVideo.addEventListener('error', function() {
+                    console.log("Video error occurred");
+                    playButton.style.display = 'flex';
+                });
+            }
+        });
+            // Добавьте этот JavaScript внутрь уже существующего скрипта в вашем документе
+    // Добавьте этот JavaScript внутрь уже существующего скрипта в вашем документе
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим все элементы видеоплеера
+    const mainVideo = document.getElementById('mainVideo');
+    const playButton = document.getElementById('playButton');
+    const playPauseButton = document.getElementById('playPauseButton');
+    const progressContainer = document.querySelector('.progress-container');
+    const progressBar = document.querySelector('.progress-bar');
+    const currentTimeElement = document.getElementById('currentTime');
+    const totalTimeElement = document.getElementById('totalTime');
+    const muteButton = document.getElementById('muteButton');
+    const volumeSlider = document.getElementById('volumeSlider');
+    
+    // Проверяем, что все элементы существуют
+    if (!playButton || !mainVideo) {
+        console.error('Ошибка: не найдены основные элементы управления видео');
+        return;
+    }
+    
+    // Функция для форматирования времени
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        seconds = Math.floor(seconds % 60);
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+    
+    // Функция для обновления прогресс-бара
+    function updateProgressBar() {
+        if (mainVideo.duration) {
+            const percentage = (mainVideo.currentTime / mainVideo.duration) * 100;
+            progressBar.style.width = `${percentage}%`;
+            currentTimeElement.textContent = formatTime(mainVideo.currentTime);
+        }
+    }
+    
+    // Инициализация после загрузки метаданных видео
+    mainVideo.addEventListener('loadedmetadata', function() {
+        totalTimeElement.textContent = formatTime(mainVideo.duration);
+    });
+    
+    // Обновление прогресс-бара во время воспроизведения
+    mainVideo.addEventListener('timeupdate', updateProgressBar);
+    
+    // Функция для воспроизведения видео (используется обеими кнопками)
+    function playVideo() {
+        return mainVideo.play()
+            .then(() => {
+                playButton.style.display = 'none';
+                if (playPauseButton) playPauseButton.textContent = '❚❚'; // Иконка паузы
+            })
+            .catch(error => {
+                console.log("Video play failed:", error);
+                alert('Видео файл не найден или не поддерживается браузером');
+            });
+    }
+    
+    // Функция для паузы видео (используется обеими кнопками)
+    function pauseVideo() {
+        mainVideo.pause();
+        playButton.style.display = 'flex';
+        if (playPauseButton) playPauseButton.textContent = '▶'; // Иконка воспроизведения
+    }
+    
+    // Обработка клика на центральную кнопку play
+    playButton.addEventListener('click', function(e) {
+        e.stopPropagation(); // Останавливаем распространение события
+        
+        console.log("Большая кнопка нажата");
+        
+        if (mainVideo.paused) {
+            playVideo();
+        } else {
+            pauseVideo();
+        }
+    });
+    
+    // Обработка клика на кнопку play/pause в контролах
+    if (playPauseButton) {
+        playPauseButton.addEventListener('click', function(e) {
+            e.stopPropagation(); // Останавливаем распространение события
+            
+            if (mainVideo.paused) {
+                playVideo();
+            } else {
+                pauseVideo();
+            }
+        });
+    }
+    
+    // Клик по видео также запускает/останавливает воспроизведение
+    mainVideo.addEventListener('click', function() {
+        if (mainVideo.paused) {
+            playVideo();
+        } else {
+            pauseVideo();
+        }
+    });
+    
+    // Клик по прогресс-бару для перемотки
+    if (progressContainer) {
+        progressContainer.addEventListener('click', function(e) {
+            e.stopPropagation(); // Предотвращаем запуск видео при клике на прогресс-бар
+            const rect = progressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            mainVideo.currentTime = pos * mainVideo.duration;
+        });
+    }
+    
+    // Изменение громкости
+    if (volumeSlider) {
+        volumeSlider.addEventListener('input', function() {
+            mainVideo.volume = volumeSlider.value;
+            // Обновляем иконку звука
+            if (mainVideo.volume === 0) {
+                muteButton.textContent = '🔇';
+            } else {
+                muteButton.textContent = '🔊';
+            }
+        });
+    }
+    
+    // Кнопка отключения звука
+    if (muteButton) {
+        muteButton.addEventListener('click', function(e) {
+            e.stopPropagation(); // Останавливаем распространение события
+            
+            if (mainVideo.volume > 0) {
+                // Сохраняем текущую громкость
+                volumeSlider.dataset.lastVolume = mainVideo.volume;
+                // Отключаем звук
+                mainVideo.volume = 0;
+                volumeSlider.value = 0;
+                muteButton.textContent = '🔇';
+            } else {
+                // Восстанавливаем громкость
+                mainVideo.volume = volumeSlider.dataset.lastVolume || 1;
+                volumeSlider.value = mainVideo.volume;
+                muteButton.textContent = '🔊';
+            }
+        });
+    }
+    
+    // Обработка состояний видео
+    mainVideo.addEventListener('pause', function() {
+        playButton.style.display = 'flex';
+        if (playPauseButton) playPauseButton.textContent = '▶';
+    });
+    
+    mainVideo.addEventListener('play', function() {
+        playButton.style.display = 'none';
+        if (playPauseButton) playPauseButton.textContent = '❚❚';
+    });
+    
+    // Обработка окончания видео
+    mainVideo.addEventListener('ended', function() {
+        playButton.style.display = 'flex';
+        if (playPauseButton) playPauseButton.textContent = '▶';
+        if (progressBar) progressBar.style.width = '100%';
+    });
+    
+    // Обработка ошибок видео
+    mainVideo.addEventListener('error', function() {
+        console.log("Video error occurred");
+        playButton.style.display = 'flex';
+        alert('Ошибка при загрузке видео');
+    });
+    
+    // Добавляем дополнительный слой безопасности для больших кнопок
+    const videoFrame = document.querySelector('.video-frame');
+    if (videoFrame) {
+        // Делаем так, чтобы клики в пределах video-frame не мешали работе большой кнопки
+        videoFrame.addEventListener('click', function(e) {
+            // Проверяем, был ли клик непосредственно на video-frame, а не на его дочерних элементах
+            if (e.target === videoFrame) {
+                if (mainVideo.paused) {
+                    playVideo();
+                } else {
+                    pauseVideo();
+                }
+            }
+        });
+    }
+    
+    console.log("Скрипт видеоплеера инициализирован");
+});
+    
+    </script>
+</body>
+</html>
